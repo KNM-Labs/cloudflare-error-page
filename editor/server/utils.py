@@ -48,3 +48,26 @@ def fill_cf_template_params(params: dict):
     if not client_ip:
         client_ip = request.remote_addr
     params['client_ip'] = client_ip
+
+
+def sanitize_user_link(link: str):
+    link = link.strip()
+    link_lower = link
+    if link_lower.startswith('http://') or link_lower.startswith('https://'):
+        return link
+    if '.' in link or '/' in link:
+        return 'https://' + link
+    return '#' + link
+
+
+def sanitize_page_param_links(param: dict):
+    more_info = param.get('more_information')
+    if more_info:
+        link = more_info.get('link')
+        if link:
+            more_info['link'] = sanitize_user_link(link)
+    perf_sec_by = param.get('perf_sec_by')
+    if perf_sec_by:
+        link = perf_sec_by.get('link')
+        if link:
+            perf_sec_by['link'] = sanitize_user_link(link)

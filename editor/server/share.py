@@ -24,7 +24,7 @@ from . import (
     models
 )
 
-from .utils import fill_cf_template_params
+from .utils import fill_cf_template_params, sanitize_page_param_links
 
 # root_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../')
 # examples_dir = os.path.join(root_dir, 'examples')
@@ -120,6 +120,7 @@ def get(name: str):
         params['what_can_i_do'] = html.escape(params.get('what_can_i_do', ''))
         fill_cf_template_params(params)
         fill_template_params(params)
+        sanitize_page_param_links(params)
 
         return template.render(base=cf_template,
                                params=params,
