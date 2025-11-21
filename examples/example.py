@@ -13,7 +13,7 @@ error_page = render_cf_error_page({
     },
     'cloudflare_status': {
         "status": 'error',
-        "status_text": 'Not Working',
+        "status_text": 'Error',
     },
     'host_status': {
         "status": 'ok',

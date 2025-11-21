@@ -35,7 +35,7 @@ error_page = render_cf_error_page({
     # Cloudflare status is error
     'cloudflare_status': {
         "status": 'error',
-        "status_text": 'Not Working',
+        "status_text": 'Error',
     },
     # Host status is also ok
     'host_status': {
@@ -86,7 +86,7 @@ params = {
     "cloudflare_status": {
         "status": "error",
         "location": "Everywhere",
-        "status_text": "Not Working",
+        "status_text": "Error",
     },
     "host_status": {
         "status": "error",
