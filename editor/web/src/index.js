@@ -5,8 +5,8 @@
   - inputs call render() on change
   - "Open in new tab" opens the rendered HTML in a new window using a blob URL
 */
-import ejs from 'ejs'
-import templateContent from './template.ejs?raw'
+import ejs from 'ejs';
+import templateContent from './template.ejs?raw';
 
 
 let template = ejs.compile(templateContent);
@@ -139,7 +139,7 @@ function getDefaultPresetName() {
     name = extractUrlParam(window.location.hash.substring(1), key);
   }
   if (name) {
-    name = name.replace(/[^\w\d]/g, '')
+    name = name.replace(/[^\w\d]/g, '');
   }
   return name;
 }
@@ -371,15 +371,6 @@ function setBlockClass(id, cls) {
   el.classList.add(cls);
 }
 
-/* Simple debounce */
-function debounce(fn, wait) {
-  let t;
-  return (...args) => {
-    clearTimeout(t);
-    t = setTimeout(() => fn(...args), wait);
-  };
-}
-
 /* Wire up events */
 // initialize form values from initialConfig
 loadConfig(initialConfig);
@@ -419,18 +410,10 @@ $('btnCopyLink').addEventListener('click', () => {
 // Input change -> render
 const inputs = document.querySelectorAll('#editorForm input, #editorForm textarea, #editorForm select');
 inputs.forEach((inp) => {
-  inp.addEventListener(
-    'input',
-    debounce(() => {
-      // Update status block color classes for quick visual feedback in the editor
-      render();
-    }, 200)
-  );
+  inp.addEventListener('input', () => render());
   // for radio change events (error_source)
   if (inp.type === 'radio')
-    inp.addEventListener('change', () => {
-      render();
-    });
+    inp.addEventListener('change', () => render());
 });
 
 // Automatically update frame height

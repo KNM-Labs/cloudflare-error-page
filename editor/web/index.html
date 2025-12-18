@@ -29,8 +29,6 @@
 
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
 
-  <link href="https://virt.moe/assets/cloudflare-error-page/bootstrap.min.css" rel="stylesheet">
-
   <script type="module" src="src/index.js"></script>
   <style>
     /* Layout: editor + preview */
@@ -61,6 +59,7 @@
         display: flex;
         flex-direction: column;
       }
+
       iframe.preview-frame {
         height: 100% !important;
       }
@@ -84,7 +83,6 @@
     /* Compact form: label and control same row */
     .form-row {
       display: flex;
-      gap: .3rem;
       align-items: center;
       margin-bottom: .6rem;
     }
@@ -125,7 +123,6 @@
       height: var(--expanded-height);
       border: 1px solid #ddd;
       flex: 1 1 auto;
-      min-height: 360px;
       border-radius: .375rem;
       box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
     }
@@ -200,8 +197,10 @@
               <div class="d-flex justify-content-between align-items-start mb-2">
                 <strong>Browser</strong>
                 <div>
-                  <input class="form-check-input" type="radio" name="error_source" id="err_browser" value="browser" />
-                  <label for="err_browser" class="ms-1 small">Error here</label>
+                  <label for="err_browser" class="ms-1 small">
+                    <input class="form-check-input" type="radio" name="error_source" id="err_browser" value="browser" />
+                    Error here
+                  </label>
                 </div>
               </div>
 
@@ -242,9 +241,11 @@
               <div class="d-flex justify-content-between align-items-start mb-2">
                 <strong>Cloudflare</strong>
                 <div>
-                  <input class="form-check-input" type="radio" name="error_source" id="err_cloudflare"
-                    value="cloudflare" />
-                  <label for="err_cloudflare" class="ms-1 small">Error here</label>
+                  <label for="err_cloudflare" class="ms-1 small">
+                    <input class="form-check-input" type="radio" name="error_source" id="err_cloudflare"
+                      value="cloudflare" />
+                    Error here
+                  </label>
                 </div>
               </div>
 
@@ -285,8 +286,10 @@
               <div class="d-flex justify-content-between align-items-start mb-2">
                 <strong>Host</strong>
                 <div>
-                  <input class="form-check-input" type="radio" name="error_source" id="err_host" value="host" />
-                  <label for="err_host" class="ms-1 small">Error here</label>
+                  <label for="err_host" class="ms-1 small">
+                    <input class="form-check-input" type="radio" name="error_source" id="err_host" value="host" />
+                    Error here
+                  </label>
                 </div>
               </div>
 
@@ -327,8 +330,10 @@
             <div class="d-flex justify-content-between align-items-start mb-2">
               <strong>Visit ...</strong>
               <div>
-                <input id="more_hidden" class="form-check-input" type="checkbox" />
-                <label for="more_hidden" class="ms-1 small">Hidden</label>
+                <label for="more_hidden" class="ms-1 small">
+                  <input id="more_hidden" class="form-check-input" type="checkbox" />
+                  Hidden
+                </label>
               </div>
             </div>
 
@@ -427,4 +432,5 @@
     </div>
   </div>
 </body>
+
 </html>
