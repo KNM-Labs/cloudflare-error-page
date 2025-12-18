@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from typing import Any
 
 from cloudflare_error_page import (
@@ -17,8 +18,7 @@ env = Environment(
     trim_blocks=True,
     lstrip_blocks=True,
 )
-template = env.from_string('''
-{% extends base %}
+template = env.from_string('''{% extends base %}
 
 {% block header %}
 {% if page_icon_url %}
@@ -32,8 +32,8 @@ template = env.from_string('''
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="moe::virt" />
 <meta property="og:title" content="{{ html_title }}" />
-<meta property="og:url" content="{{ url }}" />
-<meta property="og:description" content="{{ description }}" />
+<meta property="og:url" content="{{ page_url }}" />
+<meta property="og:description" content="{{ page_description }}" />
 {% if page_image_url %}
 <meta property="og:image" content="{{ page_image_url }}" />
 {% endif %}
@@ -41,7 +41,7 @@ template = env.from_string('''
 <meta property="twitter:card" content="summary" />
 <meta property="twitter:site" content="moe::virt" />
 <meta property="twitter:title" content="{{ html_title }}" />
-<meta property="twitter:description" content="{{ description }}" />
+<meta property="twitter:description" content="{{ page_description }}" />
 {% if page_image_url %}
 <meta property="twitter:image" content="{{ page_image_url }}" />
 {% endif %}
@@ -122,6 +122,9 @@ def render_extended_template(params: ErrorPageParams,
                              *args: Any,
                              **kwargs: Any) -> str:
     fill_cf_template_params(params)
+    description = params.get('what_happened') or 'Cloudflare error page'
+    description = re.sub(r'</?.*?>', '', description).strip()
+
     page_image_id = 'ok'
     cf_status_obj = params.get('cloudflare_status')
     if cf_status_obj:
@@ -134,8 +137,8 @@ def render_extended_template(params: ErrorPageParams,
                                 base=base_template,
                                 page_icon_url=current_app.config.get('PAGE_ICON_URL'),
                                 page_icon_type=current_app.config.get('PAGE_ICON_TYPE'),
-                                url=request.url,
-                                description='Cloudflare error page',
+                                page_url=request.url,
+                                page_description=description,
                                 page_image_url=page_image_url,
                                 *args,
                                 **kwargs)

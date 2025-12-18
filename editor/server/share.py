@@ -2,7 +2,10 @@
 
 import random
 import string
+from typing import cast
 
+
+from cloudflare_error_page import ErrorPageParams
 from flask import (
     Blueprint,
     current_app,
@@ -85,7 +88,7 @@ def get(name: str):
             })
         else:
             return abort(404)
-    params: dict = item.params
+    params = cast(ErrorPageParams, item.params)
     params.pop('time', None)
     params.pop('ray_id', None)
     params.pop('client_ip', None)
