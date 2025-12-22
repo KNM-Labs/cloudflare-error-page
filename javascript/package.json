@@ -1,6 +1,6 @@
 {
   "name": "cloudflare-error-page",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Cloudflare Error Page Generator",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
