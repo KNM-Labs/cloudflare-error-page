@@ -5,16 +5,13 @@
   - inputs call render() on change
   - "Open in new tab" opens the rendered HTML in a new window using a blob URL
 */
-import ejs from 'ejs';
-import templateContent from './template.ejs?raw';
+import { render as render_cf_error_page } from 'cloudflare-error-page';
 
 import 'bootstrap/js/src/modal.js';
 import Popover from 'bootstrap/js/src/popover.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { jsCodeGen, jsonCodeGen, pythonCodeGen } from './codegen';
-
-let template = ejs.compile(templateContent);
 
 // can be changed if specified by '?from=<name>'
 let initialConfig = {
@@ -255,24 +252,9 @@ function readConfig() {
     },
   };
 }
-function formatUtcTimestamp() {
-  const d = new Date();
-
-  const year = d.getUTCFullYear();
-  const month = String(d.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(d.getUTCDate()).padStart(2, '0');
-
-  const hours = String(d.getUTCHours()).padStart(2, '0');
-  const minutes = String(d.getUTCMinutes()).padStart(2, '0');
-  const seconds = String(d.getUTCSeconds()).padStart(2, '0');
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} UTC`;
-}
 
 function renderEjs(params) {
-  return template({
-    params: params,
-  });
+  return render_cf_error_page(params);
 }
 
 /* Basic render: build HTML string from config and put into iframe.srcdoc */
@@ -280,9 +262,8 @@ function render() {
   const cfg = readConfig();
   window.lastCfg = cfg;
 
-  cfg.time = formatUtcTimestamp();
+  // TODO: input box for Ray ID / Client IP?
   cfg.ray_id = '0123456789abcdef';
-  cfg.client_ip = '1.1.1.1';
   if (Number.isNaN(Number(cfg.error_code))) {
     cfg.html_title = cfg.title || 'Internal server error';
   }
@@ -305,8 +286,8 @@ function render() {
 let lastRenderedHtml = '';
 function openInNewTab() {
   if (!lastRenderedHtml) render();
-  const wnd = window.open()
-  wnd.document.documentElement.innerHTML = lastRenderedHtml
+  const wnd = window.open();
+  wnd.document.documentElement.innerHTML = lastRenderedHtml;
 }
 
 function createShareableLink() {
@@ -448,10 +429,10 @@ function updateSaveAsDialog(e) {
   if (codegen) {
     saveAsContent = codegen.generate(params);
   } else if (saveAsType == 'static') {
-    render() // rerender the page
+    render(); // rerender the page
     saveAsContent = lastRenderedHtml;
   } else {
-    throw new Error('unexpected saveAsType=' + saveAsType)
+    throw new Error('unexpected saveAsType=' + saveAsType);
   }
   $('saveAsDialogCode').value = saveAsContent;
   $('saveAsDialogCode').scrollTop = 0;

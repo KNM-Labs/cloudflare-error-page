@@ -13,6 +13,9 @@ export default defineConfig(({ mode }) => {
       minify: true,
       sourcemap: true,
     },
+    resolve: {
+      dedupe: ['ejs'],
+    },
     server: {
       port: 3000,
       proxy: {
