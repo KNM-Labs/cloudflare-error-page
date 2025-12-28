@@ -7,8 +7,8 @@ from flask import (
     send_from_directory,
 )
 
-root_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../')
-res_folder = os.path.join(root_dir, 'editor/web/dist')
+from . import root_dir
+default_res_folder = os.path.join(root_dir, 'editor/web/dist')
 
 bp = Blueprint('editor', __name__, url_prefix='/')
 
@@ -16,4 +16,4 @@ bp = Blueprint('editor', __name__, url_prefix='/')
 @bp.route('/', defaults={'path': 'index.html'})
 @bp.route('/<path:path>')
 def index(path: str):
-    return send_from_directory(res_folder, path)
+    return send_from_directory(default_res_folder, path)

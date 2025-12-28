@@ -1,21 +1,20 @@
 # SPDX-License-Identifier: MIT
 
-import json
 import os
 import secrets
 import string
 import sys
 import tomllib
+from pathlib import Path
 
-from flask import Flask, redirect, request, url_for
+from flask import Flask, redirect, url_for
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-root_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../')
-sys.path.append(root_dir)
+root_dir = Path(__file__).parent.parent.parent.parent
 
 class Base(DeclarativeBase):
     pass
@@ -39,8 +38,6 @@ def _initialize_app_config(app: Flask):
         app.wsgi_app = ProxyFix(
             app.wsgi_app, x_for=1, x_proto=1
         )
-    app.json.ensure_ascii = False
-    app.json.mimetype = "application/json; charset=utf-8"
     secret_key = app.config.get('SECRET_KEY', '')
     if secret_key:
         app.secret_key = secret_key

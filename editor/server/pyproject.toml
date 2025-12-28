@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cloudflare-error-page-editor-server"
+description = "Backend of the Cloudflare error page editor"
+requires-python = ">=3.13"
+license = "MIT"
+authors = [{ name = "Anthony Donlon" }]
+dependencies = [
+  "Flask",
+  "Flask-Limiter",
+  "Flask-SqlAlchemy",
+  "cloudflare-error-page @ {root:uri}/../../",
+]
+version = "0.0.0"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build]
+include = ["app/**/*"]

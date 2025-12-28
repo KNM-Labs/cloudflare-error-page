@@ -2,6 +2,7 @@ import json
 import os
 import re
 from typing import Any
+from pathlib import Path
 
 from cloudflare_error_page import (
     ErrorPageParams,
@@ -10,8 +11,6 @@ from cloudflare_error_page import (
 )
 from flask import current_app, request
 from jinja2 import Environment, select_autoescape
-
-from . import root_dir
 
 env = Environment(
     autoescape=select_autoescape(),
@@ -53,7 +52,7 @@ loc_data: dict = None
 
 def read_loc_file(path: str):
     try:
-        with open(os.path.join(root_dir, path)) as f:
+        with open(os.path.join(Path(__file__).parent / path)) as f:
             return json.load(f)
     except:
         return
@@ -63,10 +62,10 @@ def get_cf_location(loc: str):
     global loc_data
     loc = loc.upper()
     if loc_data is None:
-        loc_data = read_loc_file('editor/server/cf-colos.json')
+        loc_data = read_loc_file('data/cf-colos.json')
     if loc_data is None:
         # From https://github.com/Netrvin/cloudflare-colo-list/blob/main/DC-Colos.json
-        loc_data = read_loc_file('editor/server/cf-colos.bundled.json')
+        loc_data = read_loc_file('data/cf-colos.bundled.json')
     if loc_data is None:
         return
     data: dict = loc_data.get(loc)

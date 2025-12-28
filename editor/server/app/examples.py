@@ -16,13 +16,14 @@ from .utils import (
     render_extended_template,
 )
 
-root_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../')
+from . import root_dir
 examples_dir = os.path.join(root_dir, 'examples')
+# TODO: copy to current folder for packaging
+
 
 bp = Blueprint('examples', __name__, url_prefix='/')
-
-
 param_cache: dict[str, dict] = {}
+
 
 def get_page_params(name: str) -> ErrorPageParams:
     name = re.sub(r'[^\w]', '', name)
